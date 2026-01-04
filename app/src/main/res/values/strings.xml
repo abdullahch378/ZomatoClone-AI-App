@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ZomatoClone</string>
+    <string name="login">Login</string>
+    <string name="go_to_cart">Go to Cart</string>
+    <string name="order_success">Order Placed Successfully!</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search</string>
+</resources>

@@ -1,9 +1,21 @@
 package com.example.zomatoclone;
 
-import com.example.zomatoclone.models.MenuItem;
+import com.example.zomatoclone.model.MenuItem;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class Cart {
-    public static List<MenuItem> cartList = new ArrayList<>();
+    private static ArrayList<MenuItem> cartItems = new ArrayList<>();
+
+    public static void addItem(MenuItem item) {
+        cartItems.add(item);
+    }
+
+    public static ArrayList<MenuItem> getCartItems() {
+        return cartItems;
+    }
+
+    public static void clearCart() {
+        cartItems.clear();
+    }
 }

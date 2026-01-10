@@ -11,9 +11,8 @@
         android:id="@+id/imgProfile"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_profiles"
+        android:src="@drawable/ic_avatar"
         android:contentDescription="@string/profile"
-        android:background="@color/white"
         android:scaleType="centerCrop"
         android:layout_marginBottom="16dp"
         android:clipToOutline="true"/>
@@ -22,10 +21,18 @@
         android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Abdullah"
+        android:text="Username"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginBottom="12dp"/>
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="email@example.com"
+        android:textSize="16sp"
+        android:layout_marginBottom="24dp"/>
 
     <Button
         android:id="@+id/btnLogout"

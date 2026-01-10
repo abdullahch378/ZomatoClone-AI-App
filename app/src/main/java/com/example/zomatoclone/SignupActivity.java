@@ -10,25 +10,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class LoginActivity extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
-    private Button btnLogin, btnSignup, btnForgotPassword;
+    private Button btnSignup;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
         btnSignup = findViewById(R.id.btnSignup);
-        btnForgotPassword = findViewById(R.id.btnForgotPassword);
         mAuth = FirebaseAuth.getInstance();
 
-        btnLogin.setOnClickListener(v -> {
+        btnSignup.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String pass = etPassword.getText().toString().trim();
 
@@ -37,17 +35,15 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
+            mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    Toast.makeText(this, "Signup successful", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
                     finish();
                 } else {
-                    Toast.makeText(this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Signup failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         });
-
-        btnSignup.setOnClickListener(v -> startActivity(new Intent(this, SignupActivity.class)));
-        btnForgotPassword.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
     }
 }

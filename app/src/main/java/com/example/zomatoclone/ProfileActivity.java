@@ -6,9 +6,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private Button btnLogout;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +19,10 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         btnLogout = findViewById(R.id.btnLogout);
+        mAuth = FirebaseAuth.getInstance();
+
         btnLogout.setOnClickListener(v -> {
+            mAuth.signOut();
             startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
             finish();
         });

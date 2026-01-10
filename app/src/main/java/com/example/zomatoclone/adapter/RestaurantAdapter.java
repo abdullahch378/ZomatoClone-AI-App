@@ -1,4 +1,4 @@
-package com.example.zomatoclone.adapters;
+package com.example.zomatoclone.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,24 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zomatoclone.R;
-import com.example.zomatoclone.models.Restaurant;
+import com.example.zomatoclone.model.Restaurant;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
 
-    private Context context;
-    private List<Restaurant> restaurantList;
-    private OnRestaurantClickListener listener;
+    Context context;
+    ArrayList<Restaurant> restaurants;
 
-    public interface OnRestaurantClickListener {
-        void onRestaurantClick(Restaurant restaurant);
-    }
-
-    public RestaurantAdapter(Context context, List<Restaurant> restaurantList, OnRestaurantClickListener listener) {
+    public RestaurantAdapter(Context context, ArrayList<Restaurant> restaurants) {
         this.context = context;
-        this.restaurantList = restaurantList;
-        this.listener = listener;
+        this.restaurants = restaurants;
     }
 
     @NonNull
@@ -40,35 +34,24 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
-        Restaurant restaurant = restaurantList.get(position);
+        Restaurant restaurant = restaurants.get(position);
         holder.tvName.setText(restaurant.getName());
-        int resId = context.getResources().getIdentifier(
-                restaurant.getImage().replace(".png", ""),
-                "drawable",
-                context.getPackageName()
-        );
-        holder.imgRestaurant.setImageResource(resId);
-
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onRestaurantClick(restaurant);
-            }
-        });
+        holder.imgRestaurant.setImageResource(restaurant.getImage());
     }
 
     @Override
     public int getItemCount() {
-        return restaurantList.size();
+        return restaurants.size();
     }
 
     static class RestaurantViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgRestaurant;
         TextView tvName;
+        ImageView imgRestaurant;
 
         public RestaurantViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgRestaurant = itemView.findViewById(R.id.imgRestaurant);
             tvName = itemView.findViewById(R.id.tvRestaurantName);
+            imgRestaurant = itemView.findViewById(R.id.imgRestaurant);
         }
     }
 }

@@ -1,25 +1,21 @@
 package com.example.zomatoclone;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.zomatoclone.adapters.MenuAdapter;
-import com.example.zomatoclone.models.MenuItem;
+import com.example.zomatoclone.adapter.MenuAdapter;
+import com.example.zomatoclone.model.MenuItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RestaurantDetailsActivity extends AppCompatActivity {
 
     private RecyclerView rvMenu;
-    private LinearLayout rootLayout;
-    private List<MenuItem> menu;
+    private MenuAdapter menuAdapter;
+    private ArrayList<MenuItem> menuItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,35 +23,18 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant_details);
 
         rvMenu = findViewById(R.id.rvMenu);
-        rootLayout = findViewById(R.id.rootLayout);
-        menu = new ArrayList<>();
-        menu.add(new MenuItem("Pizza", 12.5));
-        menu.add(new MenuItem("Burger", 8.0));
-        menu.add(new MenuItem("Pasta", 10.0));
-        menu.add(new MenuItem("Salad", 7.0));
-        menu.add(new MenuItem("Fries", 5.0));
 
-        MenuAdapter adapter = new MenuAdapter(this, menu, item -> {
-            if (!CartActivity.cartList.contains(item)) {
-                CartActivity.cartList.add(item);
-                Toast.makeText(RestaurantDetailsActivity.this,
-                        item.getName() + " added to cart", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(RestaurantDetailsActivity.this,
-                        item.getName() + " already in cart", Toast.LENGTH_SHORT).show();
-            }
-        });
+        menuItems = new ArrayList<>();
+        menuItems.add(new MenuItem("Briyani", 300.0, R.drawable.cat_briyani));
+        menuItems.add(new MenuItem("Burger", 250.0, R.drawable.cat_burger));
+        menuItems.add(new MenuItem("Pizza", 600.0, R.drawable.cat_pizza));
+        menuItems.add(new MenuItem("Karahi", 1200.0, R.drawable.cat_karahi));
+        menuItems.add(new MenuItem("Chinese", 300.0, R.drawable.cat_chinese));
+        menuItems.add(new MenuItem("Coffee", 250.0, R.drawable.cat_coffee));
+        menuItems.add(new MenuItem("Dessert", 600.0, R.drawable.cat_dessert));
+        menuItems.add(new MenuItem("Icecream", 1200.0, R.drawable.cat_icecream));
 
-        rvMenu.setLayoutManager(new LinearLayoutManager(this));
-        rvMenu.setAdapter(adapter);
-        Button btnViewCart = new Button(this);
-        btnViewCart.setText("View Cart (" + CartActivity.cartList.size() + ")");
-        btnViewCart.setBackgroundColor(getResources().getColor(R.color.primaryColor));
-        btnViewCart.setTextColor(getResources().getColor(R.color.white));
-        btnViewCart.setOnClickListener(v -> {
-            startActivity(new android.content.Intent(RestaurantDetailsActivity.this, CartActivity.class));
-        });
-
-        rootLayout.addView(btnViewCart);
+        menuAdapter = new MenuAdapter(this, menuItems);
+        rvMenu.setAdapter(menuAdapter);
     }
 }

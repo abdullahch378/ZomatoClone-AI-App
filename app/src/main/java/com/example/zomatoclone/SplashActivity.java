@@ -7,6 +7,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
+    private static final int SPLASH_DELAY = 2000; // 2 seconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +17,6 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             finish();
-        }, 2000);
+        }, SPLASH_DELAY);
     }
 }

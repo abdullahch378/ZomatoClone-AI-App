@@ -1,9 +1,9 @@
 package com.example.zomatoclone;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
-import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNav = findViewById(R.id.bottomNavigation);
 
-
+        // Load HomeFragment by default
         loadFragment(new HomeFragment());
 
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
-            int id = item.getItemId();
 
+            int id = item.getItemId();
             if (id == R.id.nav_home) {
                 fragment = new HomeFragment();
             } else if (id == R.id.nav_search) {

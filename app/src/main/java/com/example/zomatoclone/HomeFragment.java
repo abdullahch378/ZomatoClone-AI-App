@@ -1,75 +1,70 @@
 package com.example.zomatoclone;
 
-import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.zomatoclone.adapters.CategoryAdapter;
-import com.example.zomatoclone.adapters.RestaurantAdapter;
-import com.example.zomatoclone.models.Category;
-import com.example.zomatoclone.models.Restaurant;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.zomatoclone.adapter.CategoryAdapter;
+import com.example.zomatoclone.adapter.RestaurantAdapter;
+import com.example.zomatoclone.model.Category;
+import com.example.zomatoclone.model.Restaurant;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView rvRestaurants, rvCategories;
+    RecyclerView rvCategories, rvRestaurants;
+    CategoryAdapter categoryAdapter;
+    RestaurantAdapter restaurantAdapter;
 
-    public HomeFragment() {
+    ArrayList<Category> categories;
+    ArrayList<Restaurant> restaurants;
 
-    }
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState){
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        rvRestaurants = root.findViewById(R.id.rvRestaurants);
-        rvCategories = root.findViewById(R.id.rvCategories);
+        rvCategories = view.findViewById(R.id.rvCategories);
+        rvRestaurants = view.findViewById(R.id.rvRestaurants);
 
+        // Categories
+        categories = new ArrayList<>();
+        categories.add(new Category("Briyani", R.drawable.cat_briyani));
+        categories.add(new Category("Burger", R.drawable.cat_burger));
+        categories.add(new Category("Chinese", R.drawable.cat_chinese));
+        categories.add(new Category("Coffee", R.drawable.cat_coffee));
+        categories.add(new Category("Dessert", R.drawable.cat_dessert));
+        categories.add(new Category("Ice Cream", R.drawable.cat_icecream));
+        categories.add(new Category("Karahi", R.drawable.cat_karahi));
+        categories.add(new Category("Pizza", R.drawable.cat_pizza));
+        categories.add(new Category("Steak", R.drawable.cat_steak));
 
-        List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant("Pizza Place", "res1.png"));
-        restaurants.add(new Restaurant("Burger Joint", "res2.png"));
-        restaurants.add(new Restaurant("Heat Box", "res3.png"));
-        restaurants.add(new Restaurant("Pakistani Dhaba", "res4.png"));
-        restaurants.add(new Restaurant("Coffee Bar", "res5.png"));
-        restaurants.add(new Restaurant("Bismillah Hotel", "res6.png"));
-        restaurants.add(new Restaurant("Bonbird", "res7.png"));
-
-        RestaurantAdapter restaurantAdapter = new RestaurantAdapter(requireContext(), restaurants, restaurant -> {
-
-            Intent intent = new Intent(requireActivity(), RestaurantDetailsActivity.class);
-            intent.putExtra("restaurant_name", restaurant.getName());
-            startActivity(intent);
-        });
-        rvRestaurants.setLayoutManager(new LinearLayoutManager(requireContext()));
-        rvRestaurants.setAdapter(restaurantAdapter);
-
-
-        List<Category> categories = new ArrayList<>();
-        categories.add(new Category("Pizza", "cat_pizza.png"));
-        categories.add(new Category("Burger", "cat_burger.png"));
-        categories.add(new Category("Chinese", "cat_chinese.png"));
-        categories.add(new Category("Briyani", "cat_briyani.png"));
-        categories.add(new Category("Coffee", "cat_coffee.png"));
-        categories.add(new Category("Dessert", "cat_dessert.png"));
-        categories.add(new Category("Icecream", "cat_icecream.png"));
-        categories.add(new Category("Karahi", "cat_karahi.png"));
-        categories.add(new Category("Steak", "cat_steak.png"));
-
-        CategoryAdapter categoryAdapter = new CategoryAdapter(requireContext(), categories);
-        rvCategories.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+        categoryAdapter = new CategoryAdapter(getContext(), categories);
         rvCategories.setAdapter(categoryAdapter);
+        rvCategories.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        return root;
+        // Restaurants
+        restaurants = new ArrayList<>();
+        restaurants.add(new Restaurant("Biryani House", R.drawable.res1));
+        restaurants.add(new Restaurant("Burger King", R.drawable.res2));
+        restaurants.add(new Restaurant("Chinese Wok", R.drawable.res3));
+        restaurants.add(new Restaurant("Coffee Corner", R.drawable.res4));
+        restaurants.add(new Restaurant("Dessert Hub", R.drawable.res5));
+        restaurants.add(new Restaurant("Pizza Planet", R.drawable.res6));
+        restaurants.add(new Restaurant("Steak House", R.drawable.res7));
+
+        restaurantAdapter = new RestaurantAdapter(getContext(), restaurants);
+        rvRestaurants.setAdapter(restaurantAdapter);
+        rvRestaurants.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        return view;
     }
 }

@@ -3,57 +3,33 @@ package com.example.zomatoclone;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.zomatoclone.models.MenuItem;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.zomatoclone.adapter.MenuAdapter;
 
 public class CartActivity extends AppCompatActivity {
 
-    public static List<MenuItem> cartList = new ArrayList<>();
-
-    private LinearLayout llCartItems;
-    private Button btnConfirmOrder;
+    RecyclerView rvCart;
+    Button btnCheckout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        llCartItems = findViewById(R.id.llCartItems);
-        btnConfirmOrder = findViewById(R.id.btnConfirmOrder);
+        rvCart = findViewById(R.id.rvCart);
+        btnCheckout = findViewById(R.id.btnCheckout);
 
-        displayCartItems();
+        rvCart.setAdapter(new MenuAdapter(Cart.getCartItems(), this));
+        rvCart.setLayoutManager(new LinearLayoutManager(this));
 
-        btnConfirmOrder.setOnClickListener(v -> {
-
-            cartList.clear();
-
+        btnCheckout.setOnClickListener(v -> {
             startActivity(new Intent(CartActivity.this, OrderSuccessActivity.class));
+            Cart.clearCart();
             finish();
         });
-    }
-
-    private void displayCartItems() {
-        llCartItems.removeAllViews();
-
-        if(cartList.isEmpty()){
-            TextView tvEmpty = new TextView(this);
-            tvEmpty.setText("Your cart is empty!");
-            tvEmpty.setTextSize(16f);
-            llCartItems.addView(tvEmpty);
-        } else {
-            for(MenuItem item : cartList){
-                TextView tvItem = new TextView(this);
-                tvItem.setText(item.getName() + " - $" + item.getPrice());
-                tvItem.setTextSize(16f);
-                llCartItems.addView(tvItem);
-            }
-        }
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,31 +20,33 @@ import java.util.ArrayList;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
 
-    ArrayList<MenuItem> menuItems;
-    Context context;
+    private Context context;
+    private ArrayList<MenuItem> menuItems;
 
-    public MenuAdapter(ArrayList<MenuItem> menuItems, Context context) {
-        this.menuItems = menuItems;
+    public MenuAdapter(Context context, ArrayList<MenuItem> menuItems) {
         this.context = context;
+        this.menuItems = menuItems;
     }
 
     @NonNull
     @Override
     public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_menu, parent, false);
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.item_menu, parent, false);
         return new MenuViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
         MenuItem item = menuItems.get(position);
-        holder.tvMenuName.setText(item.getName());
-        holder.tvMenuPrice.setText("₹" + item.getPrice());
-        holder.btnAddToCart.setOnClickListener(v -> {
-            Cart.addItem(item);
-            Toast.makeText(context, item.getName() + " added to cart",
 
-                    Toast.LENGTH_SHORT).show();
+        holder.txtName.setText(item.getName());
+        holder.txtPrice.setText("Rs. " + item.getPrice());
+        holder.imgFood.setImageResource(item.getImage());
+
+        holder.btnAdd.setOnClickListener(v -> {
+            Cart.addItem(item);
+            Toast.makeText(context, "Added to cart", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -53,15 +56,17 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     }
 
     static class MenuViewHolder extends RecyclerView.ViewHolder {
-        TextView tvMenuName, tvMenuPrice;
-        Button btnAddToCart;
-        ImageView imgMenu;
+
+        ImageView imgFood;
+        TextView txtName, txtPrice;
+        Button btnAdd;
 
         public MenuViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvMenuName = itemView.findViewById(R.id.tvMenuName);
-            tvMenuPrice = itemView.findViewById(R.id.tvMenuPrice);
-            btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
+            imgFood = itemView.findViewById(R.id.imgFood);
+            txtName = itemView.findViewById(R.id.txtFoodName);
+            txtPrice = itemView.findViewById(R.id.txtFoodPrice);
+            btnAdd = itemView.findViewById(R.id.btnAddToCart);
         }
     }
 }

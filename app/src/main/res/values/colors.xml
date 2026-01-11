@@ -3,4 +3,6 @@
     <color name="black">#000000</color>
     <color name="primaryColor">#FF4C4C</color>
     <color name="lightGray">#F5F5F5</color>
+    <color name="purple_500">#6200EE</color>
+
 </resources>

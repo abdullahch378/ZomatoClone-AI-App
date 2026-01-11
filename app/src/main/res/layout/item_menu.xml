@@ -7,48 +7,56 @@
     android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:padding="12dp">
 
+        <!-- FOOD IMAGE -->
         <ImageView
-            android:id="@+id/imgMenu"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:id="@+id/imgFood"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:src="@drawable/cat_briyani"
+            android:scaleType="centerCrop"
             android:layout_marginEnd="12dp"
-            android:scaleType="centerCrop"/>
+            android:background="@color/lightGray"/>
 
-        <TextView
-            android:id="@+id/tvMenuName"
+        <!-- NAME + PRICE -->
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:text="Menu Item"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvMenuPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$10"
-            android:textSize="16sp"
-            android:textColor="@color/primaryColor"
-            android:textStyle="bold"
-            android:layout_marginEnd="12dp" />
+            <TextView
+                android:id="@+id/txtFoodName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Food Name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
+            <TextView
+                android:id="@+id/txtFoodPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs. 300"
+                android:textSize="16sp"
+                android:textColor="@color/primaryColor"/>
+        </LinearLayout>
+
+        <!-- ADD TO CART BUTTON -->
         <Button
             android:id="@+id/btnAddToCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"
+            android:textStyle="bold"
             android:backgroundTint="@color/primaryColor"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
+            android:textColor="@color/white"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

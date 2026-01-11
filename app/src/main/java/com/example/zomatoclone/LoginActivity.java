@@ -1,19 +1,23 @@
 package com.example.zomatoclone;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
-    private Button btnLogin, btnSignup, btnForgotPassword;
+    private Button btnLogin;
+    private TextView tvSignup, tvForgotPassword;
     private FirebaseAuth mAuth;
 
     @Override
@@ -21,33 +25,44 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mAuth = FirebaseAuth.getInstance();
+
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        btnSignup = findViewById(R.id.btnSignup);
-        btnForgotPassword = findViewById(R.id.btnForgotPassword);
-        mAuth = FirebaseAuth.getInstance();
+        tvSignup = findViewById(R.id.tvSignup);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
-        btnLogin.setOnClickListener(v -> {
-            String email = etEmail.getText().toString().trim();
-            String pass = etPassword.getText().toString().trim();
+        btnLogin.setOnClickListener(v -> loginUser());
 
-            if (email.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(this, "Enter email and password", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        tvSignup.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, SignupActivity.class)));
+        tvForgotPassword.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class)));
+    }
 
-            mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-                } else {
-                    Toast.makeText(this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
+    private void loginUser() {
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
-        btnSignup.setOnClickListener(v -> startActivity(new Intent(this, SignupActivity.class)));
-        btnForgotPassword.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
+        if (TextUtils.isEmpty(email)) {
+            etEmail.setError("Email is required");
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            etPassword.setError("Password is required");
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
